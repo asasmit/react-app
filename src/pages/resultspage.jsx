@@ -10,7 +10,7 @@ const ResultsPage = () => {
   useEffect(() => {
     const fetchResults = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/results/");
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/results/`);
         
         if (response.data.message && response.data.message === "No questions available") {
           setError("No questions to show.");

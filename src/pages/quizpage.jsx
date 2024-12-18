@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import {
   containerStyle,
   headerStyle,
@@ -17,6 +17,8 @@ import {
   loadingStyle, 
 } from "./QuizPageStyle";
 
+// const apiUrl = process.env.REACT_APP_API_URL;
+
 const QuizPage = () => {
   const [questionData, setQuestionData] = useState(null);
   const [selectedOption, setSelectedOption] = useState("");
@@ -26,7 +28,8 @@ const QuizPage = () => {
 
   const fetchQuiz = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/question/'); 
+      const response = await axios(`${process.env.REACT_APP_API_URL}/question/`);
+      // const response = await axios('http://localhost:8000/api/question/');
 
       if (!response.ok) { 
         if (response.status === 404) {
@@ -62,7 +65,8 @@ const QuizPage = () => {
     }
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/submit/", {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/submit/`, {
+      // const response = await axios.post("http://127.0.0.1:8000/api/submit/", {
         question_id: questionData.uid,
         option: selectedOption,
       });
