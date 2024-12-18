@@ -28,7 +28,7 @@ const QuizPage = () => {
 
   const fetchQuiz = async () => {
     try {
-      const response = await axios(`${process.env.REACT_APP_API_URL}/question/`);
+      const response = await axios('http://16.171.41.73:8000/api/question/');
       // const response = await axios('http://localhost:8000/api/question/');
 
       if (!response.ok) { 
@@ -65,7 +65,7 @@ const QuizPage = () => {
     }
 
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/submit/`, {
+      const response = await axios.post('http://16.171.41.73:8000/api/submit/', {
       // const response = await axios.post("http://127.0.0.1:8000/api/submit/", {
         question_id: questionData.uid,
         option: selectedOption,
