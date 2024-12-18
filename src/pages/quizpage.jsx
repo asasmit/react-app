@@ -17,7 +17,6 @@ import {
   loadingStyle, 
 } from "./QuizPageStyle";
 
-// const apiUrl = process.env.REACT_APP_API_URL;
 
 const QuizPage = () => {
   const [questionData, setQuestionData] = useState(null);
@@ -28,35 +27,37 @@ const QuizPage = () => {
 
   const fetchQuiz = async () => {
     try {
+      console.log("hiiiii")
       const response = await axios('http://16.171.41.73:8000/api/question/');
-      // const response = await axios('http://localhost:8000/api/question/');
-
-      if (!response.ok) { 
+      console.log("API Response:", response);
+      const data = response.data;
+      
+      if (!data || data.detail === "No questions available." || Object.keys(data).length === 0) {
+        setError("No questions left!");
+        setQuestionData(null);
+        return; 
+      }
+      
+      // Check for unsuccessful response
+      if (response.status !== 200) { 
         if (response.status === 404) {
-          setError("No questions left!");
+          setError("No questions left!"); 
         } else {
           setError(`HTTP error! status: ${response.status}`); 
         }
         setQuestionData(null);
         return; 
       }
-
-      const data = await response.json();
-
-      if (!data) {
-        setError("No questions left!"); 
-        setQuestionData(null);
-        return; 
-      }
-
+      
       setQuestionData(data);
       setError(null); 
-
+      
     } catch (error) {
       console.error("Fetch error:", error);
       setError("Failed to fetch question.");
     }
   };
+  
 
   const submit = async (questionData, selectedOption) => {
     if (!selectedOption) {
@@ -66,7 +67,6 @@ const QuizPage = () => {
 
     try {
       const response = await axios.post('http://16.171.41.73:8000/api/submit/', {
-      // const response = await axios.post("http://127.0.0.1:8000/api/submit/", {
         question_id: questionData.uid,
         option: selectedOption,
       });
