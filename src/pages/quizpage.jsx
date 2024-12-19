@@ -17,7 +17,6 @@ import {
   loadingStyle, 
 } from "./QuizPageStyle";
 
-
 const QuizPage = () => {
   const [questionData, setQuestionData] = useState(null);
   const [selectedOption, setSelectedOption] = useState("");
@@ -27,7 +26,6 @@ const QuizPage = () => {
 
   const fetchQuiz = async () => {
     try {
-      console.log("hiiiii")
       const response = await axios('http://16.171.41.73:8000/api/question/');
       console.log("API Response:", response);
       const data = response.data;
@@ -38,7 +36,6 @@ const QuizPage = () => {
         return; 
       }
       
-      // Check for unsuccessful response
       if (response.status !== 200) { 
         if (response.status === 404) {
           setError("No questions left!"); 
